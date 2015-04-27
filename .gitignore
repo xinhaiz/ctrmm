@@ -1,0 +1,6 @@
+# 测试文件过滤
+Test*
+
+# 字典源文件过滤
+Data/*.ct
+Data/addones/*.ct
