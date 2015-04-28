@@ -168,10 +168,10 @@ final class Retrieval {
      
         $this->moveY($compile->getMaskY());
 
-        $matched   = false;
-        $waitCode  = $compile->getCode();
-        $lineC     = explode(pack('C', 0x3B), trim($fileC->readLine(0xFFF)));
-        $moveX     = $compile->getMaskX();
+        $matched  = false;
+        $waitCode = $compile->getCode();
+        $lineC    = explode(pack('C', 0x3B), trim($fileC->readLine(0xFFF)));
+        $moveX    = $compile->getMaskX();
         
         for($i = 0; $i < 0xFF; ++$i) {
             if($i === $moveX) {
