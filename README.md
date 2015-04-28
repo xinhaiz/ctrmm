@@ -75,5 +75,5 @@
     ```php
         $compile = new \Lib\Compile(); 
         $compile->encode('测试');
-        $code = compile->getCode();
+        $code = $compile->getCode();
     ```
