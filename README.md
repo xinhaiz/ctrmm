@@ -69,3 +69,11 @@
 
         $retrieval->end();
     ```
+
+- 编码
+
+    ```php
+        $compile = new \Lib\Compile(); 
+        $compile->encode('测试');
+        $code = compile->getCode();
+    ```
