@@ -83,8 +83,10 @@ final class Make {
      * @return \Make
      */
     public function setCompileFile($compileFile) {
-        if(is_file($compileFile)) {
-            $this->compileFile = (string)$compileFile . Consts::COMPILE_EXT;
+        $file = (string)$compileFile . Consts::COMPILE_EXT;
+        
+        if(is_file($file)) {
+            $this->compileFile = (string)$file;
         }
         
         return $this;
