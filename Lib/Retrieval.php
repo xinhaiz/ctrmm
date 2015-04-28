@@ -151,7 +151,7 @@ final class Retrieval {
             
             $this->_delimiter = $delimiter;
             $this->_holder    = pack('C', 0x3B);
-            $this->_start     = 3 + 2 + $enableSize + 1 + $this->_indexLen; // BOM(3);  2 索引长度值； 1 分隔符
+            $this->_start     = 3 + 2 + $enableSize + 1 + $this->_indexLen + 1; // BOM(3); 1 分隔符  2 索引长度值；1 换行符
             $this->_compile   = new \Lib\Compile();
             $this->_init      = true;
         }
@@ -217,7 +217,7 @@ final class Retrieval {
      */
     protected function moveY($y) {
         $moveY = (isset($this->_incrSize[$y]) ? $this->_incrSize[$y] : 0);
-        $this->getFileC()->next($moveY + 1);
+        $this->getFileC()->next($moveY);
         
         return true;
     }
