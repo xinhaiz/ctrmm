@@ -1,5 +1,7 @@
 ## 基于字典检索、RMM算法的分词处理
 
+- 分词
+
 ```php
 // 如果有自动加载机制，这个可以省略
 require('Lib/Consts.php');
@@ -25,4 +27,13 @@ Array
     [0965c8] => 纤薄
     [7b8f34] => 极致
 )
+```
+
+- 检索
+
+```php
+$retrieval = \Lib\Retrieval::getInstance();
+$retrieval->setFile('Bin/compile.ctx')->init();
+
+var_dump($retrieval->match('测试'));
 ```
