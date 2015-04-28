@@ -13,20 +13,16 @@ $splitword = \Lib\Splitword::getInstance();
 $splitword->initRetrieval('Bin/compile.ctx');
 
 $splitword->exec('极致纤薄一体时尚机身 三星A3仅售1770');
-var_dump($splitword->getRetrieved());
+print_r($splitword->getRetrieved());
 
-array(6) {
-  '66d954' =>
-  string(6) "仅售"
-  '779c4e' =>
-  string(8) "三星A3"
-  [634334] =>
-  string(6) "机身"
-  '0ccaec' =>
-  string(6) "时尚"
-  'a32dc5' =>
-  string(6) "一体"
-  '7b8f34' =>
-  string(6) "极致"
-}
+Array
+(
+    [66d954] => 仅售
+    [779c4e] => 三星A3
+    [634334] => 机身
+    [0ccaec] => 时尚
+    [a32dc5] => 一体
+    [0965c8] => 纤薄
+    [7b8f34] => 极致
+)
 ```
