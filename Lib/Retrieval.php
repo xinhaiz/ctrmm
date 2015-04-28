@@ -175,7 +175,7 @@ final class Retrieval {
         
         for($i = 0; $i < 0xFF; ++$i) {
             if($i === $moveX) {
-                $matched = (!empty($lineC[$i])) ? mb_strpos($lineC[$i], $waitCode) >= 0 : false;
+                $matched = (!empty($lineC[$i])) ? $this->valid($waitCode, $lineC[$i]) : false;
                 break;
             }
             
@@ -183,7 +183,7 @@ final class Retrieval {
                 --$moveX;
             }
         }
-        
+
         return $matched;
     }
 
@@ -201,6 +201,23 @@ final class Retrieval {
         $this->getFileC()->close();
         
         return true;
+    }
+    
+    /**
+     * 校验检索结果
+     * 
+     * @param string $waitCode
+     * @param string $lineC
+     * @return boolean
+     */
+    protected function valid($waitCode, $lineC) {
+        foreach (explode(',', $lineC) as $code) {
+            if(strcmp($code, $waitCode) === 0) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     /**
