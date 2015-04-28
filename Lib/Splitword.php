@@ -176,10 +176,10 @@ final class Splitword {
 
             foreach($ables as $ableLen) {
                 $word = trim($char->read($ableLen));
-
+               
                 if($retrieval->match($word) === true) {
                     $this->push($compile->getCode(), $word);
-                    $char->cut($ableLen);
+                    $char->cut($char->getRealLen());
                     $isRetrieved = true;
                     break;
                 } else {
@@ -219,7 +219,7 @@ final class Splitword {
                 $pass = (bool)($char->current() > 0);
                 
                 if($retrieval->match($word) === true) {
-                    $char->prev($ableLen);
+                    $char->prev($char->getRealLen());
                     $this->push($compile->getCode(), $word);
                 } else {
                     $char->prev(1);

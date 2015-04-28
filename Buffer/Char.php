@@ -4,10 +4,11 @@ namespace Buffer;
 
 final class Char {
     
-    protected $_nWord  = array();
-    protected $_buff   = null;
-    protected $_point  = 0;
-    protected $_length = 0;
+    protected $_nWord   = array();
+    protected $_buff    = null;
+    protected $_point   = 0;
+    protected $_length  = 0;
+    protected $_realLen = 0;
     protected $_encoding = 'UTF-8';
 
     public function __construct($buff, $encoding = null) {
@@ -45,10 +46,20 @@ final class Char {
         $point = $this->_point;
         $rSize = $this->size() - $point;
         $rLen  = $rSize > $length ? $length : $rSize;
+        $this->_realLen = $rLen;
         
         return mb_substr($this->_buff, $point, $rLen, $this->_encoding);
     }
     
+    /**
+     * 获取上次读取字符串的实际长度
+     * 
+     * @return int
+     */
+    public function getRealLen() {
+        return $this->_realLen;
+    }
+
     /**
      * 读取N字字符长度并向前移动指针位置(语法糖)
      * 
