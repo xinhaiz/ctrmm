@@ -40,14 +40,6 @@ final class Retrieval {
     protected $_compile = null;
     
     /**
-     * 分隔符, 占位符
-     *
-     * @var string
-     */
-    protected $_delimiter = ',';
-    protected $_holder    = ';';
-    
-    /**
      * 已检索过的Char
      *
      * @var array 
@@ -149,11 +141,9 @@ final class Retrieval {
             $this->_fileC = $fileC;
             $this->parseIndex();
             
-            $this->_delimiter = $delimiter;
-            $this->_holder    = pack('C', 0x3B);
-            $this->_start     = 3 + 2 + $enableSize + 1 + $this->_indexLen + 1; // BOM(3); 1 分隔符  2 索引长度值；1 换行符
-            $this->_compile   = new \Lib\Compile();
-            $this->_init      = true;
+            $this->_start   = 3 + 2 + $enableSize + 1 + $this->_indexLen + 1; // BOM(3); 1 分隔符  2 索引长度值；1 换行符
+            $this->_compile = new \Lib\Compile();
+            $this->_init    = true;
         }
 
         return true;
@@ -177,19 +167,23 @@ final class Retrieval {
         $compile->encode(trim($char));
      
         $this->moveY($compile->getMaskY());
-        $this->moveX($compile->getMaskX());
 
         $matched   = false;
-        $delimiter = $this->_delimiter;
         $waitCode  = $compile->getCode();
-
-        do {
-            if(strcmp($waitCode, $fileC->read(6)) === 0){
-                $matched = true;
+        $lineC     = explode(pack('C', 0x3B), trim($fileC->readLine(0xFFF)));
+        $moveX     = $compile->getMaskX();
+        
+        for($i = 0; $i < 0xFF; ++$i) {
+            if($i === $moveX) {
+                $matched = (!empty($lineC[$i])) ? mb_strpos($lineC[$i], $waitCode) >= 0 : false;
                 break;
             }
-        } while (strcmp($fileC->read(), $delimiter) === 0);
-    
+            
+            if(!empty($lineC[$i])) {
+                --$moveX;
+            }
+        }
+        
         return $matched;
     }
 
@@ -222,33 +216,6 @@ final class Retrieval {
         return true;
     }
     
-    /**
-     * 移动 X
-     * 
-     * @param int $x
-     * @return boolean
-     */
-    protected function moveX($x) {
-        $fileC  = $this->getFileC();
-        $holder = $this->_holder;
-        $delim  = $this->_delimiter;
-  
-        for ($i = 0; $i < $x; $i++) {
-            $char = $fileC->read();
-            
-            while(strcmp($char, $delim) === 0) {
-                $fileC->next(6);
-                $char = $fileC->read();
-            }
-
-            if(strcmp($char, $holder) !== 0) {
-                $fileC->next(5);
-            }
-        }
-        
-        return true;
-    }
-
     /**
      * 索引内容解析
      * 
