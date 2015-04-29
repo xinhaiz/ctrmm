@@ -163,13 +163,13 @@ final class Retrieval {
         $compile = $this->getCompile();
         $fileC   = $this->getFileC();
         $compile->encode(trim($char));
-        
+     
         $maskY = $compile->getMaskY();
         $moveY = (isset($this->_incrSize[$maskY]) ? $this->_incrSize[$maskY] : 0);
         $fileC->position($this->_start + $moveY);
 
         $matched = false;
-        $lineC   = explode(pack('C', 0x3B), $fileC->readLine(0xFFF));
+        $lineC   = explode(pack('C', 0x3B), trim($fileC->readLine(0xFFF)));
         $maskX   = $compile->getMaskX();
         
         for($i = 0; $i < 0xFF; ++$i) {
