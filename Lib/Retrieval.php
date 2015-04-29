@@ -163,22 +163,23 @@ final class Retrieval {
         $compile = $this->getCompile();
         $fileC   = $this->getFileC();
         $compile->encode(trim($char));
-     
-        $this->moveY($compile->getMaskY());
+        
+        $maskY = $compile->getMaskY();
+        $moveY = (isset($this->_incrSize[$maskY]) ? $this->_incrSize[$maskY] : 0);
+        $fileC->position($this->_start + $moveY);
 
-        $matched  = false;
-        $waitCode = $compile->getCode();
-        $lineC    = explode(pack('C', 0x3B), trim($fileC->readLine(0xFFF)));
-        $moveX    = $compile->getMaskX();
+        $matched = false;
+        $lineC   = explode(pack('C', 0x3B), trim($fileC->readLine(0xFFF)));
+        $maskX   = $compile->getMaskX();
         
         for($i = 0; $i < 0xFF; ++$i) {
-            if($i === $moveX) {
-                $matched = (!empty($lineC[$i])) ? $this->valid($waitCode, $lineC[$i]) : false;
+            if($i === $maskX) {
+                $matched = (!empty($lineC[$i])) ? $this->valid($compile->getCode(), $lineC[$i]) : false;
                 break;
             }
             
             if(!empty($lineC[$i])) {
-                --$moveX;
+                --$maskX;
             }
         }
 
@@ -218,19 +219,6 @@ final class Retrieval {
         return false;
     }
 
-    /**
-     * 移动 Y
-     * 
-     * @param int $y
-     * @return boolean
-     */
-    protected function moveY($y) {
-        $moveY = (isset($this->_incrSize[$y]) ? $this->_incrSize[$y] : 0);
-        $this->getFileC()->position($this->_start + $moveY);
-        
-        return true;
-    }
-    
     /**
      * 索引内容解析
      * 
