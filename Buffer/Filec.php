@@ -85,7 +85,17 @@ final class Filec {
     public function next($offset = 1) {
         return (fseek($this->getHandle(), abs($offset), SEEK_CUR) === 0 ? true : false);
     }
-    
+
+    /**
+     * 文件指针定位在 $offset 位置
+     * 
+     * @param int $offset
+     * @return boolean
+     */
+    public function position($offset) {
+        return (fseek($this->getHandle(), abs($offset), SEEK_SET) === 0 ? true : false);
+    }
+
     /**
      * 文件指针向后移动N字节
      * 
