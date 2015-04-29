@@ -169,7 +169,7 @@ final class Retrieval {
         $fileC->position($this->_start + $moveY);
 
         $matched = false;
-        $lineC   = explode(pack('C', 0x3B), trim($fileC->readLine(0xFFF)));
+        $lineC   = explode(pack('C', 0x3B), $fileC->readLine(0xFFF));
         $maskX   = $compile->getMaskX();
         
         for($i = 0; $i < 0xFF; ++$i) {
