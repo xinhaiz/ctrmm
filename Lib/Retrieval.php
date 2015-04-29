@@ -162,8 +162,6 @@ final class Retrieval {
         
         $compile = $this->getCompile();
         $fileC   = $this->getFileC();
-        $fileC->reset();
-        $fileC->next($this->_start);
         $compile->encode(trim($char));
      
         $this->moveY($compile->getMaskY());
@@ -228,7 +226,7 @@ final class Retrieval {
      */
     protected function moveY($y) {
         $moveY = (isset($this->_incrSize[$y]) ? $this->_incrSize[$y] : 0);
-        $this->getFileC()->next($moveY);
+        $this->getFileC()->position($this->_start + $moveY);
         
         return true;
     }
