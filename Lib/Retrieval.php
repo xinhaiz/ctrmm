@@ -211,7 +211,7 @@ final class Retrieval {
      * @return boolean
      */
     protected function valid($waitCode, $lineC) {
-        foreach (explode(',', $lineC) as $code) {
+        foreach (explode(pack('C', 0x2C), $lineC) as $code) {
             if(strcmp($code, $waitCode) === 0) {
                 return true;
             }
