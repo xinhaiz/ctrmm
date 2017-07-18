@@ -18,7 +18,7 @@
     ```php
         $splitword = \Lib\Splitword::getInstance();
         $splitword->initRetrieval('Bin/compile.ctx');
-        $splitword->exec('金蝉脱壳、 百里挑一、 金玉满堂、 背水一战、 霸王别姬、');
+        $splitword->exec('金蝉脱壳、 百里挑一、 金玉满堂、 背水一战、 霸王别姬、');// 、是为了方便查看
         print_r($splitword->getRetrieved());
 
         Array
